@@ -1,0 +1,12 @@
+{
+  "gxp": "0.1",
+  "kind": "telemetry",
+  "tenant": "busroot-kerala",
+  "device": {"id": "bus-104-gps", "boot_id": "b7a9c0e1-5a3f-4d2b-a2a8-5a3f0c8a1111", "sequence": 18293},
+  "event": {"id": "0192f3a0-7e4a-4c2b-9c0e-6f7a1c2d3e4f", "type": "vehicle.position", "schema": "gxp.busroot.position", "schema_version": 1, "content_type": "application/json"},
+  "time": {"observed_at": "2026-11-10T12:30:05.250Z", "sent_at": "2026-11-10T12:30:05.400Z", "clock_quality": "gnss"},
+  "delivery": {"class": "LIVE_EPHEMERAL", "max_age_ms": 15000, "priority": 3},
+  "quality": {"status": "valid", "position_accuracy_m": 5.0},
+  "payload": {"latitude": 9.5661, "longitude": 76.7874, "speed_kmh": 32.4, "heading_deg": 87.0, "gps_fix": true, "route_id": "KTM-PON-01"}
+}
+
