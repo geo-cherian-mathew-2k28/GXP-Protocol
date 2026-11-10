@@ -15,8 +15,9 @@
   it must not be presented as registered or standards-track.
 - No physical GPS, cellular, secure-element, power-loss, carrier handover,
   battery, or bus field tests have run.
-- No benchmark result has been generated. Benchmark scripts/report placeholders
-  must report `NOT RUN` until an equivalent test environment is available.
+- A 50-event local, in-process SQLite measurement has run; it is recorded in
+  `TEST_RESULTS.md`. No fair MQTT/HTTPS/Sparkplug/QUIC, network, hardware,
+  cellular, power, or comparative benchmark has run.
 - A licence has not been selected by the owner; this repository is not yet an
   open-source release.
 

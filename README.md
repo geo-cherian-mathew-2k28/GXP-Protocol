@@ -55,6 +55,11 @@ trying the simulator.
 - Root progress files — transparent session status, risks, limitations, and
   human actions.
 
+For a high-level reading path, start with [GXP_SPECIFICATION.md](GXP_SPECIFICATION.md),
+[GXP_ARCHITECTURE.md](GXP_ARCHITECTURE.md),
+[GXP_DEVELOPER_GUIDE.md](GXP_DEVELOPER_GUIDE.md), and
+[RELEASE_READINESS.md](RELEASE_READINESS.md).
+
 ## Current status
 
 The Phase 0 architecture review and a first Phase 1–3 reference slice are in

@@ -19,11 +19,14 @@ as authority over verified standards or the user's instructions.
   retry/replay behavior, transactionally idempotent ingestion, freshness-aware
   BusRoot live state, development credential registry, HTTP/JSON transport and
   server, and optional MQTT publish adapter.
+- Added a local BusRoot outage/replay simulator, a narrowly scoped in-process
+  ingestion benchmark harness, CI configuration, developer/release-readiness
+  documents, and Docker development material.
 
 ## In progress
 
-- BusRoot simulator, benchmark harnesses, deployment examples, and expanded
-  operational documentation.
+- Independent implementation fixtures, real MQTT broker verification, and a
+  production-environment design reviewed with the owner.
 
 ## Not complete
 

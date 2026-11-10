@@ -1,0 +1,13 @@
+services:
+  gxp-server:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - gxp-data:/data
+
+volumes:
+  gxp-data:
+
