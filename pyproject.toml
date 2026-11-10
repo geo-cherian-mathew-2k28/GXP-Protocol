@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gxp-protocol"
+version = "0.1.0a1"
+description = "Experimental reference implementation of the GXP industrial event protocol"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "License selection pending; see LICENSE" }
+authors = [{ name = "GXP contributors" }]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = []
+
+[project.optional-dependencies]
+mqtt = ["paho-mqtt>=2.0,<3.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+gxp-server = "gxp.cli:server_main"
+gxp-bootstrap-device = "gxp.cli:bootstrap_device_main"
+
+[tool.setuptools.packages.find]
+include = ["gxp*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/gxp/schemas/gxp-envelope-0.1.schema.json",
+  "title": "GXP 0.1 Envelope",
+  "type": "object",
+  "required": ["gxp", "kind", "tenant", "device", "event", "time", "delivery", "quality", "payload"],
+  "properties": {
+    "gxp": { "const": "0.1" },
+    "kind": { "enum": ["telemetry", "event", "command", "command_ack", "capability", "health"] },
+    "tenant": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$" },
+    "device": {
+      "type": "object",
+      "required": ["id", "boot_id", "sequence"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "boot_id": { "type": "string", "format": "uuid" },
+        "sequence": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "required": ["id", "type", "schema", "schema_version", "content_type"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "type": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "schema": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "schema_version": { "type": "integer", "minimum": 1 },
+        "content_type": { "const": "application/json" }
+      },
+      "additionalProperties": false
+    },
+    "time": {
+      "type": "object",
+      "required": ["observed_at", "clock_quality"],
+      "properties": {
+        "observed_at": { "type": "string", "format": "date-time" },
+        "sent_at": { "type": "string", "format": "date-time" },
+        "clock_quality": { "enum": ["gnss", "network", "estimated", "unknown"] }
+      },
+      "additionalProperties": false
+    },
+    "delivery": {
+      "type": "object",
+      "required": ["class", "priority"],
+      "properties": {
+        "class": { "enum": ["LIVE_EPHEMERAL", "DURABLE_EVENT", "COMMAND", "BULK", "HEARTBEAT"] },
+        "max_age_ms": { "type": "integer", "minimum": 0 },
+        "priority": { "type": "integer", "minimum": 0, "maximum": 9 }
+      },
+      "additionalProperties": false
+    },
+    "quality": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["valid", "degraded", "invalid", "estimated"] },
+        "position_accuracy_m": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "payload": { "type": "object" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "delivery": { "properties": { "class": { "const": "LIVE_EPHEMERAL" } } } } },
+      "then": { "properties": { "delivery": { "required": ["max_age_ms"] } } }
+    }
+  ],
+  "additionalProperties": false
+}
+
