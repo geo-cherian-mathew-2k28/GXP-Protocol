@@ -1,29 +1,34 @@
 # Roadmap
 
-## 0.1 Experimental reference
+## 0.1 Native protocol foundation
 
-- Freeze the draft envelope and delivery semantics.
-- Ship the BusRoot simulator, edge spool, ingestion path, HTTP mapping, optional
-  MQTT mapping, conformance fixtures, and fault-oriented tests.
+- Freeze GXP/1 native frame/session architecture and GXP-M/1 constrained profile.
+- Implement frame codec, parser, session state machine, field registry, binary
+  test vectors, and fuzzing corpus.
+- Preserve the JSON/HTTP core and MQTT adapter only as compatibility bridges.
 
-## 0.2 Pilot hardening
+## 0.2 Native runtime and embedded pilot
 
-- Define and implement production device enrollment, mTLS, certificate rotation,
-  revocation, tenant/operator authorization, audit export, rate limiting, and
-  metrics.
-- Test MQTT 5 against a configured broker and move server persistence to a
-  production datastore as pilot scale requires.
+- Build GXP/TCP/TLS client/server session support, application ACK/resume,
+  credit flow control, and production persistence.
+- Build and test GXP-M/1 on a constrained board and validate memory, reconnection,
+  power-loss, command replay, and actuator-safety behavior.
 
-## 0.3 Interoperability and field evidence
+## 0.3 Security, bridges, and field evidence
 
-- Add Sparkplug and OPC UA mappings only after their required profile semantics
-  are specified.
-- Conduct controlled network/power/cellular tests and fair MQTT/HTTPS baselines.
+- Add production enrolment, mTLS, certificate rotation, revocation,
+  tenant/operator authorization, audit export, rate limiting, and metrics.
+- Test MQTT/HTTP bridges and add Sparkplug/OPC UA mappings only after their
+  required semantics are specified.
+- Conduct controlled network/power/cellular tests and fair native-GXP/MQTT/HTTP
+  baselines.
 - Invite an independent implementation and run the conformance suite.
 
 ## Later
 
-- Evaluate a QUIC profile against carrier and middlebox compatibility evidence.
-- Consider binary encodings only after measured JSON and CPU/bandwidth evidence.
+- Evaluate a GXP/QUIC binding against carrier and middlebox compatibility
+  evidence.
+- Freeze a native payload encoding only after embedded CPU/bandwidth and
+  interoperability evidence.
 - Prepare public-release and standards materials only with owner approval.
 

@@ -12,4 +12,5 @@ This is the short-form index for decision records in `docs/adr/`.
 | ADR-0006 | Live state is freshness- and source-time-aware; historical storage is separate. | Accepted |
 | ADR-0007 | Commands are allowlisted, expiring, auditable lifecycle records; no vehicle control. | Accepted |
 | ADR-0008 | `gxp` and project name remain provisional. | Accepted |
+| ADR-0009 | GXP/1 is a native framed application protocol; MQTT and HTTP are compatibility bridges, not GXP's core wire protocol. | Accepted |
 

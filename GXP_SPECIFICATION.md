@@ -11,12 +11,13 @@ MQTT, HTTP, QUIC, Sparkplug, or OPC UA.
 Read the draft in this order:
 
 1. [Protocol overview](specification/protocol-overview.md)
-2. [Message format](specification/message-format.md) and
+2. [GXP/1 native protocol architecture](specification/gxp1-native-protocol.md)
+3. [Message format](specification/message-format.md) and
    [JSON Schema](schemas/gxp-envelope-0.1.schema.json)
-3. [Delivery semantics](specification/delivery-semantics.md)
-4. [Transport mappings](specification/transport-mappings.md)
-5. [Error codes](specification/error-codes.md)
-6. [Versioning](specification/versioning.md)
+4. [Delivery semantics](specification/delivery-semantics.md)
+5. [Transport mappings](specification/transport-mappings.md)
+6. [Error codes](specification/error-codes.md)
+7. [Versioning](specification/versioning.md)
 
 The protocol's current assurance boundary is clear: at-least-once transfer plus
 transactionally idempotent ingestion; no claim of exactly-once business effects

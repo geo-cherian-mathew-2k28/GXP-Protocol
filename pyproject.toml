@@ -5,11 +5,21 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gxp-protocol"
 version = "0.1.0a1"
-description = "Experimental reference implementation of the GXP industrial event protocol"
+description = "Freshness-aware industrial IoT and edge event protocol for resilient telemetry, offline replay, MQTT interoperability, and safe device commands"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "License selection pending; see LICENSE" }
 authors = [{ name = "GXP contributors" }]
+keywords = [
+  "industrial-iot",
+  "iot-protocol",
+  "mqtt",
+  "edge-computing",
+  "telemetry",
+  "offline-first",
+  "store-and-forward",
+  "device-management",
+]
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "Intended Audience :: Developers",

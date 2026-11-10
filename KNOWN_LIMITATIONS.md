@@ -8,6 +8,11 @@
 - SQLite is suitable for the reference agent and local demonstrator only. A
   horizontally scaled server needs a production database and coordination
   strategy.
+- The native GXP/1 implementation currently covers only binary frame encoding,
+  decoding, and stream parsing. It does not yet provide a TLS session listener,
+  handshake, capability negotiation, acknowledgement/resume runtime, flow
+  control, fuzzing corpus, or independent implementation.
+- GXP-M/1 has no Arduino/embedded implementation or hardware validation yet.
 - The optional MQTT adapter is not exercised against a broker in this workspace.
 - QUIC, Sparkplug and OPC UA bridges are deliberately deferred rather than
   simulated or claimed.

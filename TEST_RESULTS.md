@@ -8,7 +8,7 @@ Command executed:
 py -3 -m unittest discover -s tests -v
 ```
 
-Result: **14 passed, 0 failed** in approximately 2 seconds.
+Result at that milestone: **14 passed, 0 failed** in approximately 2 seconds.
 
 Verified behaviors:
 
@@ -48,4 +48,19 @@ It measured the Python/SQLite local ingestion call only: p50 13.685 ms, p95
 17.751 ms, p99 22.649 ms, mean 13.852 ms. This is **not** an end-to-end,
 network, MQTT, HTTPS, broker, carrier, hardware, or comparative benchmark. It
 must not be reused as a performance claim.
+
+## 10 November 2026 — native GXP/1 frame prototype
+
+After adding the native frame codec and incremental stream decoder, the suite
+was rerun:
+
+```powershell
+py -3 -m unittest discover -s tests -v
+py -3 -m compileall -q gxp tests
+```
+
+Result: **18 passed, 0 failed**. The additional tests verify a binary native
+frame round trip, fragmented/coalesced byte-stream decoding, malformed magic
+rejection, and duplicate-extension rejection. No native TLS session,
+microcontroller, or network interoperability test has run.
 

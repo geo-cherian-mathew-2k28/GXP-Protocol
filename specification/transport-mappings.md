@@ -1,5 +1,13 @@
 # GXP transport mappings — draft 0.1
 
+## Canonical direction
+
+GXP/1 is the proposed native framed application protocol. Its first intended
+binding is GXP/TCP over TLS 1.3; a GXP/QUIC binding is a future target. The
+HTTP/JSON and MQTT mappings in this document are compatibility bridges into the
+same GXP semantics, not the definition of GXP's native wire protocol. See
+`gxp1-native-protocol.md`.
+
 ## Common contract
 
 Every transport adapter must preserve the envelope byte content/meaning, tenant

@@ -9,9 +9,13 @@ for answering the operational questions that transports alone cannot answer:
 > Which position is truly current? May this command still execute?
 
 GXP is an experimental application-layer protocol and reference implementation.
-It works **with** established transports—not instead of IP, TLS, HTTP, MQTT,
-QUIC, Sparkplug, or OPC UA. Its first profile, BusRoot, addresses real-time bus
-location while preserving truth during cellular outages.
+Its future canonical wire is **GXP/1**: a native framed session protocol with
+its own handshake, capability negotiation, acknowledgements, resume, flow
+control, and command lifecycle. It still reuses established TCP/TLS and later
+QUIC rather than reinventing IP, cryptography, or congestion control. MQTT,
+HTTP, Sparkplug, and OPC UA are compatibility/integration paths—not the
+definition of GXP. Its first profile, BusRoot, addresses real-time bus location
+while preserving truth during cellular outages.
 
 ## Why GXP exists
 
@@ -43,11 +47,11 @@ flowchart LR
     end
 
     OUTBOX --> REPLAY[Priority replay\nretry · backoff · jitter]
-    REPLAY --> ADAPTER{Transport adapter}
+    REPLAY --> ADAPTER{GXP transport binding}
 
-    ADAPTER -->|HTTPS/TLS| INGRESS[GXP ingestion contract]
-    ADAPTER -.->|MQTT 5/TLS · optional| INGRESS
-    ADAPTER -.->|QUIC profile · future evaluation| INGRESS
+    ADAPTER -->|GXP/1 over TCP/TLS 1.3| INGRESS[Native GXP/1 ingress]
+    ADAPTER -.->|MQTT or HTTP bridge| INGRESS
+    ADAPTER -.->|GXP/QUIC · future evaluation| INGRESS
 
     subgraph CLOUD[Edge or cloud processing]
         INGRESS --> AUTH[Authenticate + validate]
@@ -88,18 +92,20 @@ sequenceDiagram
 
 ## What makes GXP different
 
-GXP’s value is not that it claims existing protocols are broken. MQTT 5 already
+GXP's value is not that it claims existing protocols are broken. MQTT 5 already
 provides useful QoS choices; Sparkplug adds industrial MQTT conventions; QUIC
 supports secure multiplexing and client path migration; OPC UA provides an
-established information-model ecosystem. GXP adds a portable **application
-semantics layer** across those choices.
+established information-model ecosystem. GXP/1 combines a native **application
+wire protocol** with portable event semantics, session resume, explicit ACK
+ranges, priority/credit flow control, freshness, and command safety across
+those integrations.
 
 | Technology | Excellent at | Where GXP fits |
 | --- | --- | --- |
-| MQTT 5 | Lightweight publish/subscribe delivery with QoS, sessions, and message-expiry features | Carry GXP envelopes when an application needs uniform event identity, freshness, replay, and business-level ingestion semantics. |
+| MQTT 5 | Lightweight publish/subscribe delivery with QoS, sessions, and message-expiry features | Use a bridge during migration or integration; GXP/1 is the future canonical session and frame protocol. |
 | Sparkplug | MQTT topic namespace, payload conventions, and industrial device/session state | Integrate or bridge when a customer already uses Sparkplug; do not replace its ecosystem by default. |
-| HTTP/HTTPS | Ubiquitous request/response transport and operational simplicity | Carry GXP JSON where gateways need a firewall-friendly, debuggable ingestion route. |
-| QUIC | Secure streams, multiplexing, and optional client network-path migration | A future profile may use it where real carrier and middlebox tests support it; application-level replay remains necessary. |
+| HTTP/HTTPS | Ubiquitous request/response transport and operational simplicity | Use a compatibility/ingestion bridge where gateways need a firewall-friendly route. |
+| QUIC | Secure streams, multiplexing, and optional client network-path migration | GXP/QUIC is a future native binding when real carrier and middlebox tests support it; application-level replay remains necessary. |
 | OPC UA | Industrial information models and PubSub interoperability | Preserve existing models and add a mapping only where industrial users need it. |
 
 The standards review and decisions behind this position are documented in the
@@ -125,6 +131,9 @@ as much as successful network delivery:
   across long connectivity gaps while identifying their true observation age.
 - **Operations and maintenance:** deliver durable faults, health reports, and
   controlled diagnostics with idempotent processing and command expiry.
+- **Connected equipment and dispensers:** report stock, motor, sensor, and
+  dispense outcomes reliably while preventing a replayed command from producing
+  a second physical action. See the [smart-feeder MQTT profile](docs/profiles/smart-feeder-mqtt.md).
 
 GXP is not the right choice for every problem. Use a native OPC UA deployment
 when its existing model and communication profiles meet the requirement; use
@@ -143,7 +152,8 @@ production traffic.
 | Idempotent ingestion and sequence-conflict detection | Implemented with SQLite transactions |
 | Freshness-aware BusRoot live state | Implemented and tested |
 | HTTP/JSON ingestion | Implemented; TLS-capable local development server |
-| MQTT 5 | Optional publish adapter; broker and ingestion-ack integration are not yet tested |
+| GXP/1 native binary session | Architecture drafted; implementation, frame registry, and independent tests required |
+| MQTT 5 | Compatibility bridge/publish adapter; broker and ingestion-ack integration are not yet tested |
 | QUIC, Sparkplug, OPC UA bridges | Deferred pending a specific profile and field evidence |
 | Production mTLS, PKI lifecycle, horizontal scale, real hardware validation | Required before a production pilot |
 
@@ -163,6 +173,11 @@ py -3 -m unittest discover -s tests -v
 The local test suite currently verifies envelope validation, durable replay
 mechanics, acknowledgement handling, deduplication, sequence conflicts, stale
 position protection, expired commands, and authenticated HTTP ingestion.
+
+The current runnable server uses the HTTP compatibility bridge. The native GXP/1
+frame codec is tested in the reference package, while the native GXP/TCP/TLS
+session listener and embedded GXP-M/1 client are the next implementation
+milestone.
 
 ### Watch the BusRoot outage/recovery flow
 
@@ -303,6 +318,8 @@ authoritative server time.
 | [Benchmarks](GXP_BENCHMARKS.md) | Executed local measurement and fair comparison methodology |
 | [Release readiness](RELEASE_READINESS.md) | Honest evidence, blockers, and next gates |
 | [Human action required](HUMAN_ACTION_REQUIRED.md) | Legal, registration, pilot, and ownership tasks |
+| [Smart-feeder native GXP profile](docs/profiles/smart-feeder-mqtt.md) | A practical Arduino Uno R4 WiFi path from MQTT compatibility to GXP/1 native sessions |
+| [Repository metadata](REPOSITORY_METADATA.md) | Copy-ready GitHub description, topics, and discoverability checklist |
 
 Repository directories:
 

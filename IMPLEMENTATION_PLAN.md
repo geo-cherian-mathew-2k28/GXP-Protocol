@@ -2,27 +2,26 @@
 
 ## Scope guardrails
 
-GXP v0.1 is an application-level event protocol. It will not invent a transport
-layer, claim exactly-once business processing, control safety-critical vehicle
-functions, or claim standards status.
+GXP is an application-level protocol with its own native GXP/1 frame and
+session semantics. It will not invent IP, TLS cryptography, congestion control,
+or cellular networking; GXP/TCP uses TLS and a future GXP/QUIC binding uses
+QUIC. It will not claim exactly-once business processing, control
+safety-critical vehicle functions, or claim standards status.
 
 ## Milestones
 
-1. **Architecture and protocol freeze** — draft the canonical envelope,
-   validation rules, delivery classes, acknowledgement meanings, error model,
-   and BusRoot profile. Add conformance fixtures.
-2. **Reference core** — implement encoder/validator, event generation and
-   persistent sequence state.
-3. **Reliability slice** — implement SQLite/WAL outbox, prioritised replay,
-   backoff, acknowledgement deletion, quota policy, server deduplication, and
-   live-state freshness protection.
-4. **Transport slice** — implement HTTP/JSON over TLS support and an optional
-   MQTT 5 adapter. Document the exact semantic mappings.
-5. **BusRoot slice** — position schema, simulator, live-state endpoint, and
-   fault-oriented tests.
-6. **Security and operations** — replace development credential handling with
-   deployment-specific mTLS and authorization, add audit/rate-limit/metrics
-   integrations, then perform an independent review.
+1. **Native protocol freeze** — define GXP/1 framing, handshake, capability
+   negotiation, ACK/resume, credit, error registry, and GXP-M/1 micro profile.
+2. **Native reference core** — implement/test frame codec, streaming parser,
+   session state machine, payload encoding, and conformance vectors.
+3. **Native reliability runtime** — implement GXP/TCP/TLS listener/client,
+   durable resume cursor, priority scheduling, and transactional ACK boundary.
+4. **Compatibility bridges** — retain HTTP/MQTT adapters only as documented
+   bridges into native GXP semantics; broker behavior needs integration tests.
+5. **Application profiles** — BusRoot, smart-feeder, and other profiles with
+   versioned schemas, constraints, command policy, and fault-oriented tests.
+6. **Security and operations** — production device enrolment, mTLS,
+   authorisation, audit/rate-limit/metrics, fuzzing, and independent review.
 
 ## Acceptance criteria for this session
 
@@ -34,4 +33,6 @@ functions, or claim standards status.
   newer live position.
 - Invalid coordinates, sequence conflicts, expired commands, and unauthenticated
   HTTP ingestion are rejected by automated tests.
+- Native GXP/1 binary frames encode/decode correctly, reject malformed magic and
+  duplicate extensions, and stream-decode fragmented/coalesced input.
 
